@@ -1118,6 +1118,7 @@ func (pc *partitionConsumer) MessageReceived(response *pb.CommandMessage, header
 	messages := make([]*message, 0)
 	var ackTracker *ackTracker
 	// are there multiple messages in this batch?
+	fmt.Println("numMsgs:", numMsgs)
 	if numMsgs > 1 {
 		ackTracker = newAckTracker(uint(numMsgs))
 	}
