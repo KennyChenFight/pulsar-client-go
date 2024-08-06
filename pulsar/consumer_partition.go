@@ -453,6 +453,7 @@ func (pc *partitionConsumer) ackIDCommon(msgID MessageID, withResponse bool, txn
 				entryID:  trackingID.entryID,
 			},
 		}
+		fmt.Println("tracker ack:", msgID)
 		pc.metrics.AcksCounter.Inc()
 		pc.metrics.ProcessingTime.Observe(float64(time.Now().UnixNano()-trackingID.receivedTime.UnixNano()) / 1.0e9)
 	} else if !pc.options.enableBatchIndexAck {
