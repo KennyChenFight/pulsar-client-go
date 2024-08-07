@@ -1606,13 +1606,18 @@ func (pc *partitionConsumer) runEventsLoop() {
 		for i := range pc.eventsCh {
 			switch v := i.(type) {
 			case *ackRequest:
-				fmt.Println("internalAck:", v.msgID.String())
 				pc.internalAck(v)
 			case *ackWithTxnRequest:
 				pc.internalAckWithTxn(v)
 			case []*pb.MessageIdData:
+				for _, msgIDData := range v {
+					fmt.Println("ack MessageIdData:", msgIDData.String())
+				}
 				pc.internalAckList(v)
 			case *redeliveryRequest:
+				for _, msg := range v.msgIds {
+					fmt.Println("redeliveryRequest:", msg.String())
+				}
 				pc.internalRedeliver(v)
 			case *unsubscribeRequest:
 				pc.internalUnsubscribe(v)
