@@ -445,8 +445,8 @@ func (pc *partitionConsumer) ackIDCommon(msgID MessageID, withResponse bool, txn
 
 	trackingID := toTrackingMessageID(msgID)
 
-	if trackingID != nil && trackingID.tracker != nil {
-		fmt.Println("check trackingID:", trackingID.tracker.toAckSet())
+	if trackingID != nil {
+		fmt.Println("check trackingID:", trackingID.tracker)
 	}
 
 	if trackingID != nil && trackingID.ack() {
