@@ -445,6 +445,10 @@ func (pc *partitionConsumer) ackIDCommon(msgID MessageID, withResponse bool, txn
 
 	trackingID := toTrackingMessageID(msgID)
 
+	if trackingID != nil && trackingID.tracker != nil {
+		fmt.Println("check trackingID:", trackingID.tracker.toAckSet())
+	}
+
 	if trackingID != nil && trackingID.ack() {
 		// All messages in the same batch have been acknowledged, we only need to acknowledge the
 		// MessageID that represents the entry that stores the whole batch
