@@ -1606,6 +1606,7 @@ func (pc *partitionConsumer) runEventsLoop() {
 		for i := range pc.eventsCh {
 			switch v := i.(type) {
 			case *ackRequest:
+				fmt.Println("internalAck:", v.msgID.String())
 				pc.internalAck(v)
 			case *ackWithTxnRequest:
 				pc.internalAckWithTxn(v)

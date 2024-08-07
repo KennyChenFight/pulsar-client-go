@@ -250,6 +250,7 @@ func (t *timedAckGroupingTracker) close() {
 }
 
 func (t *timedAckGroupingTracker) flushIndividual(pendingAcks map[[2]uint64]*bitset.BitSet) {
+	fmt.Println("flushIndividual")
 	msgIDs := make([]*pb.MessageIdData, 0, len(pendingAcks))
 	for k, v := range pendingAcks {
 		ledgerID := k[0]
