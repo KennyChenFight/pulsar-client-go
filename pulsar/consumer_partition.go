@@ -430,6 +430,7 @@ func (pc *partitionConsumer) unsubscribe(force bool) error {
 // ackIDCommon handles common logic for acknowledging messages with or without transactions.
 // withTxn should be set to true when dealing with transactions.
 func (pc *partitionConsumer) ackIDCommon(msgID MessageID, withResponse bool, txn Transaction) error {
+	fmt.Println("ackIDCommon:", msgID.String(), msgID.BatchIdx())
 	if state := pc.getConsumerState(); state == consumerClosed || state == consumerClosing {
 		pc.log.WithField("state", state).Error("Failed to ack by closing or closed consumer")
 		return errors.New("consumer state is closed")
