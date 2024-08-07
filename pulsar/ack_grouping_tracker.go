@@ -166,6 +166,7 @@ func (t *timedAckGroupingTracker) tryAddIndividual(id MessageID) map[[2]uint64]*
 		t.pendingAcks[key] = nil
 	}
 
+	fmt.Println("check pendingAcks", len(t.pendingAcks), t.maxNumAcks)
 	if len(t.pendingAcks) >= t.maxNumAcks {
 		pendingAcks := t.pendingAcks
 		t.pendingAcks = make(map[[2]uint64]*bitset.BitSet)
