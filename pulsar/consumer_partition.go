@@ -1026,6 +1026,7 @@ func (pc *partitionConsumer) internalAckList(msgIDs []*pb.MessageIdData) {
 
 func (pc *partitionConsumer) MessageReceived(response *pb.CommandMessage, headersAndPayload internal.Buffer) error {
 	pbMsgID := response.GetMessageId()
+	fmt.Println("MessageReceived:", pbMsgID.GetLedgerId(), pbMsgID.GetEntryId(), pbMsgID.GetBatchIndex())
 
 	reader := internal.NewMessageReader(headersAndPayload)
 	brokerMetadata, err := reader.ReadBrokerMetadata()
@@ -1039,6 +1040,7 @@ func (pc *partitionConsumer) MessageReceived(response *pb.CommandMessage, header
 		pc.discardCorruptedMessage(pbMsgID, pb.CommandAck_ChecksumMismatch)
 		return err
 	}
+	fmt.Println("msgMeta:", msgMeta.NumMessagesInBatch)
 	decryptedPayload, err := pc.decryptor.Decrypt(headersAndPayload.ReadableSlice(), pbMsgID, msgMeta)
 	// error decrypting the payload
 	if err != nil {
@@ -1127,6 +1129,7 @@ func (pc *partitionConsumer) MessageReceived(response *pb.CommandMessage, header
 	if numMsgs > 1 {
 		ackTracker = newAckTracker(uint(numMsgs))
 	}
+	fmt.Println("newAckTracker:", ackTracker)
 
 	var ackSet *bitset.BitSet
 	if response.GetAckSet() != nil {
