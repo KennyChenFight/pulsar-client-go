@@ -1040,7 +1040,7 @@ func (pc *partitionConsumer) MessageReceived(response *pb.CommandMessage, header
 		pc.discardCorruptedMessage(pbMsgID, pb.CommandAck_ChecksumMismatch)
 		return err
 	}
-	fmt.Println("msgMeta:", msgMeta.NumMessagesInBatch)
+	fmt.Println("msgMeta:", *msgMeta.NumMessagesInBatch)
 	decryptedPayload, err := pc.decryptor.Decrypt(headersAndPayload.ReadableSlice(), pbMsgID, msgMeta)
 	// error decrypting the payload
 	if err != nil {
