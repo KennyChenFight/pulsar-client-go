@@ -101,6 +101,7 @@ func (id *trackingMessageID) NackByMsg(msg Message) {
 
 func (id *trackingMessageID) ack() bool {
 	if id.tracker != nil && id.batchIdx > -1 {
+		fmt.Println("trackingMessageID ack:", id.batchIdx)
 		return id.tracker.ack(int(id.batchIdx))
 	}
 	return true
