@@ -1611,12 +1611,12 @@ func (pc *partitionConsumer) runEventsLoop() {
 				pc.internalAckWithTxn(v)
 			case []*pb.MessageIdData:
 				for _, msgIDData := range v {
-					fmt.Println("ack MessageIdData:", msgIDData.String())
+					fmt.Println("ack MessageIdData:", msgIDData.String(), msgIDData.BatchIndex)
 				}
 				pc.internalAckList(v)
 			case *redeliveryRequest:
 				for _, msg := range v.msgIds {
-					fmt.Println("redeliveryRequest:", msg.String())
+					fmt.Println("redeliveryRequest:", msg.String(), msg.BatchIdx())
 				}
 				pc.internalRedeliver(v)
 			case *unsubscribeRequest:

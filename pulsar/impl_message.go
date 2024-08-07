@@ -254,7 +254,7 @@ func checkMessageIDType(msgID MessageID) (valid bool) {
 
 func toTrackingMessageID(msgID MessageID) (trackingMsgID *trackingMessageID) {
 	if mid, ok := msgID.(*trackingMessageID); ok {
-		fmt.Println("toTrackingMessageID ok")
+		fmt.Println("toTrackingMessageID ok:", mid.tracker.batchIDs.String(), mid.tracker.batchIDs.Len())
 		return mid
 	}
 	return &trackingMessageID{
