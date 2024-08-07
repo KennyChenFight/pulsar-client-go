@@ -453,7 +453,7 @@ func (pc *partitionConsumer) ackIDCommon(msgID MessageID, withResponse bool, txn
 				entryID:  trackingID.entryID,
 			},
 		}
-		fmt.Println("tracker ack:", msgID)
+		fmt.Println("tracker ack:", trackingID.String(), trackingID.BatchIdx())
 		pc.metrics.AcksCounter.Inc()
 		pc.metrics.ProcessingTime.Observe(float64(time.Now().UnixNano()-trackingID.receivedTime.UnixNano()) / 1.0e9)
 	} else if !pc.options.enableBatchIndexAck {
@@ -472,6 +472,7 @@ func (pc *partitionConsumer) ackIDCommon(msgID MessageID, withResponse bool, txn
 			err = ackReq.err
 		}
 	} else {
+		fmt.Println("ackGroupingTracker:", trackingID.String(), trackingID.BatchIdx())
 		pc.ackGroupingTracker.add(trackingID)
 	}
 	pc.options.interceptors.OnAcknowledge(pc.parentConsumer, msgID)
@@ -1118,7 +1119,6 @@ func (pc *partitionConsumer) MessageReceived(response *pb.CommandMessage, header
 	messages := make([]*message, 0)
 	var ackTracker *ackTracker
 	// are there multiple messages in this batch?
-	fmt.Println("numMsgs:", numMsgs)
 	if numMsgs > 1 {
 		ackTracker = newAckTracker(uint(numMsgs))
 	}

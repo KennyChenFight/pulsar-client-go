@@ -18,6 +18,7 @@
 package pulsar
 
 import (
+	"fmt"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -161,6 +162,7 @@ func (t *timedAckGroupingTracker) tryAddIndividual(id MessageID) map[[2]uint64]*
 			bs.Clear(uint(batchIdx))
 		}
 	} else {
+		fmt.Println("tryAddIndividual", id.String())
 		t.pendingAcks[key] = nil
 	}
 
